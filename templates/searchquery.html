@@ -1,0 +1,101 @@
+<html>
+
+    <title>STUDENT MANGEMENT</title>
+    <style>
+        table, th, tr, td{
+            border: 1px solid black;
+        }
+    </style>
+    <body>
+        <h1>
+            {% with messages = get_flashed_messages() %}
+                {% for message in messages %}
+                    {{message}}
+                {% endfor %}
+            {% endwith %}
+        </h1>
+        <h1>STUDENT MANGEMENT</h1>
+        
+        <button><a href="/">BACK</a></button>
+        <button><a href="/routeaddstudent">ADD STUDENT</a></button>
+
+        <br><br>
+        <form action="/search_data" method="GET">
+            <input type="text" name="search_query" placeholder="{{ search_query }}" required><span><button>SEARCH</button></span>
+        </form>
+
+        {% if data != [] %}
+        <table>
+            <thead>
+                <tr>
+                    {% for header in headers %}
+                        <th>{{header}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {%for student in data %}
+                <tr>
+                    <td>{{ student['idno'] }}</td>
+                    <td>{{ student['firstname'] }}</td>
+                    <td>{{ student['lastname'] }}</td>
+                    <td>{{ student['course'] }}</td>
+                    <td>{{ student['level'] }}</td>
+                    <td>
+                        <form action="/routeeditstudent" method="post">
+                            <input type="hidden" name="id" value="{{ student['id'] }}">
+                            <button type="submit">EDIT</button>
+                        </form>
+                        <form action="/delete_data" method="get">
+                            <input type="hidden" name="id" value="{{ student['id'] }}">
+                            <button type="submit">DELETE</button>
+                        </form>
+                    </td>
+                </tr>
+                    
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h1>No results for: {{search_query}}</h1>
+        {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- <form action="/add_data" method="post">
+            <label>IDNO</label>
+            <input type="text" name="idno"><br>
+            <label>FISRTNAME</label>
+            <input type="text" name="firstname"><br>
+            <label>LASTNAME</label>
+            <input type="text" name="lastname"><br>
+            <label>COURSE</label>
+            <input type="text" name="course"><br>
+            <label>LEVEL</label>
+            <input type="number" name="level"><br>
+            <button type="submit">SUBMIT</button>
+        </form> -->
+    </body>
+</html>
